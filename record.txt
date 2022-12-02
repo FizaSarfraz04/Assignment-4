@@ -1,0 +1,6 @@
+Patient's ID:3
+Patient's name:3
+Patient's CNIC:3
+Patient's phone number:3
+Patient's Disease:3
+Patient is admitted?3
