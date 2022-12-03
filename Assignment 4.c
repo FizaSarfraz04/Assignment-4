@@ -55,7 +55,7 @@ void addpatient(){
 	fprintf(fptr,"Patient is admitted?%s\n",p1.is_admit);
 	
 	menu();
-	
+ //sirrrrrrrrrrrrrr	
 }
 
 
