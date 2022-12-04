@@ -15,6 +15,8 @@ void addpatient();
 void deletepatient();
 int availableID();
 void search();
+void update();
+void display();
 int main(){
 	menu();
 }
@@ -37,13 +39,19 @@ void menu(){
 		puts(" ");
 		deletepatient();
 	}
-	/*else if(select==3){
-		puts(" ");
-		 update();
-	}*/
 	else if(select==3){
 		puts(" ");
+		 update();
+	}
+	else if(select==4){
+		puts(" ");
 		search();
+	}
+	//else if(select==5){
+		//display();
+	//}
+	else{
+		printf("Enter valid option");
 	}
 }
 void addpatient(){
@@ -200,6 +208,103 @@ void search()
  }
  menu();
 }
+//function to update 
+void update(){
+	int avl;
+ FILE *fpt;
+ FILE *fpo;
+ int s, r, ch;
+ printf("Enter ID to update:");
+ scanf("%d", &r);
+ fpt=fopen("TempFile.txt","r");
+    s=p1.ID;
+ if (fpt==NULL)
+ {
+  printf("Error opening the file");
+ }
+ else
+ {
+  fpo = fopen("Record.txt", "r");
+  fpt = fopen("TempFile.txt", "w");
+  while (fread(&p1, sizeof(p1), 1, fpo))
+  {
+   s = p1.ID;
+   if (s != r){
+   
+    fwrite(&p1, sizeof(p1), 1, fpt);
+}
+
+    printf("\n\t1. Update name of ID %d", r);
+    printf("\n\t2. Update  disease of ID %d", r);
+    printf("\n\t3. Update phone number of ID %d", r);
+    printf("\n\t4. Update CNIC of ID %d", r);
+    printf("\n\t5. Update   status  of ID %d", r);
+    printf("\nEnter your choice:");
+    scanf("%d", &ch);
+    switch (ch)
+    {
+    case 1:
+     printf("Enter Name:");
+     scanf("%s", &p1.name);
+     break;
+    case 2:
+     printf("Enter name of disease : ");
+     scanf("%s", &p1.disease);
+     break;
+    case 3:
+     printf("Enter phone number: ");
+     scanf("%s", &p1.phonenumber);
+     break;
+	 case 4:
+     printf("Enter CNIC: ");
+     scanf("%s", &p1.CNIC);
+     break;
+	 case 5:
+     printf("Enter status: ");
+     scanf("%s", &p1.is_admit);
+     break;
+    default:
+     printf("Invalid Selection\n");
+     break;
+    }
+    fwrite(&p1, sizeof(p1), 1, fpt);
+   }
+  }
+  fclose(fpo);
+  fclose(fpt);
+  fpo = fopen("Record.txt", "w");
+  fpt = fopen("TempFile.txt", "r");
+  while (fread(&p1, sizeof(p1), 1, fpt))
+  {
+   fwrite(&p1, sizeof(p1), 1, fpo);
+  }
+  fclose(fpo);
+  fclose(fpt);
+  printf("******RECORD UPDATED*****");
+
+ menu();
+}
+/*void display(){
+	struct patient p1;
+	FILE *ptr;
+	ptr=fopen("Record.txt","r");
+	while(!feof(ptr)){
+	          fread(&p1,sizeof(struct patient),1,ptr);
+        	if (feof(ptr)) {
+                          continue;
+                }
+    
+                printf("\nPatient's ID:%d",p1.ID);
+	           printf("\nPatient's name:%s",p1.name);
+	          printf("\nPatient's phone number:%s",p1.phonenumber);
+	          printf("\nPatient's CNIC:%s",p1.CNIC);
+              printf("\nPatient's Disease:%s",p1.disease);
+	          printf("\nPatient is admitted? %s",p1.is_admit);    
+	
+}
+    
+      menu();
+}*/
 
 
 
