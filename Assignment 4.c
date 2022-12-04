@@ -21,10 +21,10 @@ int main(){
 	menu();
 }
 void menu(){
-	printf("Select one option\n");
-	printf("********************************************\n");
+	printf("\nSelect one option\n");
+	printf("****************************************\n");
     printf("1.Add Patient\n2.Delete patients\n3.Update patients\n4.Search patients\n5.Display all the patients\n");
-    printf("********************************************\n");
+    printf("****************************************\n");
 	int select;
 	puts(" ");
 	printf("Enter your choice ");
@@ -37,6 +37,7 @@ void menu(){
 	}
 	else if(select==2){
 		puts(" ");
+		printf("You choose deletion\n");
 		deletepatient();
 	}
 	else if(select==3){
@@ -47,9 +48,9 @@ void menu(){
 		puts(" ");
 		search();
 	}
-	//else if(select==5){
-		//display();
-	//}
+	else if(select==5){
+		display();
+	}
 	else{
 		printf("Enter valid option");
 	}
@@ -57,7 +58,7 @@ void menu(){
 void addpatient(){
 	struct patient p1;
 	FILE *fp;
-	fp=fopen("Record.txt","a");
+	fp=fopen("record.txt","a");
 	printf("Enter the patient's Id: ");
 	scanf("%d",&p1.ID);
 	printf("Enter the name of patient: ");
@@ -71,7 +72,7 @@ void addpatient(){
 	gets(p1.disease);
 	printf("Is patient  admitted or not? ");
 	gets(p1.is_admit);
-	fp=fopen("Record.txt","a");
+	fp=fopen("record.txt","a");
 	fprintf(fp,"Patient's ID:%d\n",p1.ID);
 	fprintf(fp,"Patient's name:%s\n",p1.name);
 	fprintf(fp,"Patient's phone number:%s\n",p1.phonenumber);
@@ -87,24 +88,24 @@ void deletepatient(){
 	struct patient p1;
 	FILE *fp;
 	FILE *fp2;
-	
 	//open the input file in read mode 
-	fp=fopen("Record.txt","rb");
+	fp=fopen("record.txt","rb");
         // error handling 
         if (!fp) {
                 printf("Unable to open input file!!\n");       
         }
        // open temporary file in write mode 
-        fp2 = fopen("TempFile.txt", "a");
+        fp2 = fopen("TempFile.txt", "w");
         //error handling 
         if (!fp2) {
                 printf("Unable to open temporary file!!\n");
                 fclose(fp);
         }
           //print the records in the input file 
-        printf("Records in input file:\n");
+        printf("\nRecords in input file");
         while (!feof(fp)) {
                 fscanf(fp, "%d\n",p1.ID);
+                fflush(stdin);
                 fscanf(fp, "%s\n",p1.name);
                 fscanf(fp, "%s\n",p1.phonenumber);
                 fscanf(fp, "%s\n",p1.CNIC);
@@ -114,29 +115,30 @@ void deletepatient(){
                 if (feof(fp)) {
                         continue;
                 }
-           printf("\nPatient's ID:%d",p1.ID);
-	       printf("\nPatient's name:%s",p1.name);
-	       printf("\nPatient's phone number:%s",p1.phonenumber);
-	       printf("\nPatient's CNIC:%s",p1.CNIC);
-           printf("\nPatient's Disease:%s",p1.disease);
+           printf("\nPatient's ID: %d",p1.ID);
+	       printf("\nPatient's name: %s",p1.name);
+	       printf("\nPatient's phone number: %s",p1.phonenumber);
+	       printf("\nPatient's CNIC: %s",p1.CNIC);
+           printf("\nPatient's Disease: %s",p1.disease);
 	       printf("\nPatient is admitted? %s",p1.is_admit);      
         }
         // rewind file pointer of input file to start 
         rewind(fp);
         // get the record user wants to delete 
-        printf("\nEnter the record you want to delete(ID no):");
+        printf("\n\nEnter the record you want to delete(ID no): ");
            int id;
         scanf("%d",&id);
 
         // delete the given record 
         while (!feof(fp)) {
-               fscanf(fp, "\n%d",p1.ID);
+                fscanf(fp, "\n%d",p1.ID);
+                fflush(stdin);
                 fscanf(fp, "\n%s",p1.name);
                 fscanf(fp, "\n%s",p1.phonenumber);
                 fscanf(fp, "\n%s",p1.CNIC);
                 fscanf(fp, "\n%s",p1.disease);
                 fscanf(fp, "\n%s",p1.is_admit);
-                fflush(stdin);
+                
                 if (feof(fp)) {
                         continue;
                 }
@@ -145,7 +147,7 @@ void deletepatient(){
         fprintf(fp2, "\n%d\n%s\n%s\n%s\n%s\n%s\n", p1.ID,p1.name,p1.phonenumber,p1.CNIC,p1.disease,p1.is_admit);
     }
          // open the input file after delete operation 
-        fp = fopen("Record.txt", "rb");
+        fp = fopen("record.txt", "rb");
 
         // error handling 
         if (!fp) {
@@ -173,10 +175,13 @@ void deletepatient(){
 	    printf("\nPatient's Disease:%s",p1.disease);
     	printf("\nPatient is admitted? %s\n",p1.is_admit); 
         }
+    
         // close the opened file 
         fclose(fp);
+        printf("\nRECORD DELETED\n");
             menu();
 }
+
 //function to search record
 void search()
 {
@@ -190,7 +195,7 @@ void search()
 }
  else
  {
-  fp2 = fopen("Record.txt", "rb");
+  fp2 = fopen("record.txt", "r");
   while (fread(&p1, sizeof(p1), 1, fp2))
   {
    s = p1.ID;
@@ -224,7 +229,7 @@ void update(){
  }
  else
  {
-  fpo = fopen("Record.txt", "r");
+  fpo = fopen("record.txt", "r");
   fpt = fopen("TempFile.txt", "w");
   while (fread(&p1, sizeof(p1), 1, fpo))
   {
@@ -272,7 +277,7 @@ void update(){
   }
   fclose(fpo);
   fclose(fpt);
-  fpo = fopen("Record.txt", "w");
+  fpo = fopen("record.txt", "w");
   fpt = fopen("TempFile.txt", "r");
   while (fread(&p1, sizeof(p1), 1, fpt))
   {
@@ -284,27 +289,24 @@ void update(){
 
  menu();
 }
-/*void display(){
+void display(){
 	struct patient p1;
 	FILE *ptr;
-	ptr=fopen("Record.txt","r");
+	ptr=fopen("record.txt","r");
 	while(!feof(ptr)){
 	          fread(&p1,sizeof(struct patient),1,ptr);
         	if (feof(ptr)) {
                           continue;
                 }
-    
-                printf("\nPatient's ID:%d",p1.ID);
-	           printf("\nPatient's name:%s",p1.name);
+              printf("\nPatient's ID:%d",p1.ID);
+	          printf("\nPatient's name:%s",p1.name);
 	          printf("\nPatient's phone number:%s",p1.phonenumber);
 	          printf("\nPatient's CNIC:%s",p1.CNIC);
               printf("\nPatient's Disease:%s",p1.disease);
-	          printf("\nPatient is admitted? %s",p1.is_admit);    
-	
+	          printf("\nPatient is admitted? %s",p1.is_admit);    	
 }
-    
       menu();
-}*/
+}
 
 
 
