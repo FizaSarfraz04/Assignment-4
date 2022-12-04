@@ -1,0 +1,12 @@
+Patient's ID:22
+Patient's name:shiza
+Patient's phone number:8782783
+Patient's CNIC:27323
+Patient's Disease:cigrette
+Patient is admitted?yes
+Patient's ID:0
+Patient's name:ali
+Patient's phone number:89898
+Patient's CNIC:3232
+Patient's Disease:jhjhj
+Patient is admitted?jjkj
